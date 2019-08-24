@@ -9,7 +9,8 @@
     "dotenv": "^8.1.0",
     "moment": "^2.24.0",
     "node-spotify-api": "^1.1.1",
-    "omdb": "^0.8.0"
+    "omdb": "^0.8.0",
+    "omdbapi": "^3.0.0"
   },
   "devDependencies": {},
   "scripts": {

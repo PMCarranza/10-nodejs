@@ -31,11 +31,6 @@ var fs = require('fs');
 // var spotify gets the value of new Spotify which in turn contains the secret key and the already assign value to spotify 
 var spotify = new Spotify(keys.spotify);
 
-// function to get performer
-// varibale declared gets the value of the funciton being defined and its parameter
-// var getArtistNames = function (artist) {
-//     return artist.name;
-// };
 // searching for music
 // variable declared gets the value of the function being defined and its parameter
 var getmeSpotify = function (songName) {
@@ -47,53 +42,30 @@ var getmeSpotify = function (songName) {
     spotify.search({
         type: 'track',
         query: songName,
-        // limit:10
+        limit: 5
     }).then(function (response) {
         // console.log('line 54 --> ' + JSON.stringify(response));
+
+        // variable songs is getting the value contained in the object retrieved from the api accessed via dot notation
         var songs = response.tracks.items;
 
+        // for loop to go trhough the number of songs retrieved 
         for (var i = 0; i < songs.length; i++) {
+
+            // for loop to match the artists to the songs found
             for (var j = 0; j < songs[i].artists.length; j++) {
+                // console.log('What does j have--> '[j]);
+                console.log('Performer --> ' + songs[i].artists[j].name);
                 // console logging the value of i at each iteration for each value of the object 
-                console.log('line 61 song ' + songs[i].artists[j].name);
+                // console.log('line 61 song ' + songs[i].artists[j].name);
             };
-            // console.log('performer --> ' + songs[i].artist.map(getArtistNames));
-            console.log('the song is --> ' + songs[i].name);
-            console.log('preview song --> ' + songs[i].preview_url);
-            console.log('the album is --> ' + songs[i].album.name);
+            console.log('The song is --> ' + songs[i].name);
+            console.log('Preview song --> ' + songs[i].preview_url);
+            console.log('The album is --> ' + songs[i].album.name);
             console.log('==========================');
         };
-    });  
-}
-
-// getmeSpotify(process.argv[3]);
-        
-      // .catch(function(err) {
-      //   console.log(err);
-      // });
-        
-        
-        // function (err, data) {
-        //     // function to catch an error
-        //     if (err) {
-        //         // if error the return statement will stop the execution of the function and return the value of err.
-        //         return console.log('did not work --> ' + err);
-        //     }
-        //     console.log('this is what data has--> ' + data);
-        //     // variable songs gets the values of data, tracks and item
-        //     var songs = data.tracks.item;
-
-        // // for loop will go through the lenght of parameter songName and it will increase by one each time until it reaches 10
-        //     for (var i = 0; i < songName.length; i++) {
-        //         // console logging the value of i at each iteration for each value of the object 
-        //         console.log(i);
-        //         console.log('performer --> ' + songs[i].artist.map(getArtistNames));
-        //         console.log('the song is --> ' + songs[i].name);
-        //         console.log('preview song --> ' + songs[i].preview_url);
-        //         console.log('the album is --> ' + songs[i].album);
-        //     };
-        // });  
-//}
+    });
+};
 
 // // searching for bands
 // var findBand = function (artist) {
@@ -109,7 +81,7 @@ var getmeSpotify = function (songName) {
 
 //                 for (var i = 0; i < json.Data.length; i++) {
 //                     var show = jasonData[i];
-                
+
 //                     console.log('Place and city -->' + show.venue.city);
 //                     console.log('region or country--> ' + (show.venue.region || show.venue.country));
 //                     console.log('venue name--> ' + show.venue.name);
@@ -120,33 +92,66 @@ var getmeSpotify = function (songName) {
 //     );
 // };
 
-// // searching for movies
+// searching for movie
+// variable declared gets the value of the function being defined and its parameter
+
 // var findMovie = function (movieName) {
-//     if (movieName === undefined) {
+//     if (!movieName) {
 //         movieName = 'As good as it gets';
-//     }
-// }
+//     };
+//     var ombdUrl = 'http://www.omdbapi.com/?i=' + movieName + 'tt3896198&apikey=68c2d4d3';
 
-// var urlHit = 'http://www.omdbapi.com/?t=' + movieName + '&y=&plot=full%tomatoes=true&apikey=trilogy';
+// };
 
-// var pick = (function (caseData, functionData) {
-//     switch (caseData) {
-// //         // case 'concert-this':
-// //         //     getMyBands(functionData);
-// //         //     break;
-//         case 'spotify-this-song':
-//             getmeSpotify(functionData);
-//             break;
-// //         // case 'movie-this':
-// //         //     getMeMovie(functionData);
-// //         //     break;
-// //         // case 'do-what-it-says':
-// //         //     doWhatItSays();
-// //         //     break;
-// //         default:
-// //             console.log('LIRI does not know that');
+// var omdb = new (require('http://www.omdbapi.com/?i=tt3896198&apikey=68c2d4d3'));
+
+var findMovie = function (movieName) {
+    var ombdUrl = 'http://www.omdbapi.com/?i=' + movieName + 'tt3896198&apikey=68c2d4d3';
+    console.log('line 110 movie --> ' + movieName);
+    console.log('line 111 url --> ' + ombdUrl);
+    axios.get(ombdUrl).then(
+        function (result) {
+            var jsonMovie = result.data;
+            if (!jsonMovie.length) {
+                console.log('Nothing was found under --> ' + movieName);
+                for (var k = 0; k < json.Data.length; i++) {
+                    var show = jasonMovie[k];
+
+                    console.log('line 120 movie -->' + movieName);
+                };
+            }
+        }
+    )
+};
+
+//     if (!movieName) {
+//         console.log('line 126 ombd is --> ' + omdb);
+//         console.log('line 127 movie is --> ' + movieName);
+//         movieName = 'Life as a house';
 //     }
-// });
+//     omdb.search({
+//         search: movieName,  // required
+//         // Title: title,             // optionnal  ['series', 'episode', 'movie']
+//         // year: year,               // optionnal
+//         // page: page                   // optionnal (1 to 100)
+//     }).then(res => {
+//         console.log('got response:', res);
+//     }).catch(console.error);
+//     omdb.get({
+//         Title: title,   // optionnal (requires imdbid or title)
+//         Year: year,                // optionnal
+//         // imbd rating
+//         tomatoes: true,             // optionnal (get rotten tomatoes ratings)
+//         // country of origin
+//         // language
+//         Plot: 'short',               // optionnal (defaults to 'short')
+//         Actors: actors             
+//     }).then(res => {
+//         console.log('got response:', res);
+//     }).catch(console.error);
+// };
+
+
 
 var firstInput = process.argv[2];
 var secondInput = process.argv[3];
@@ -157,9 +162,10 @@ var whichFunction = function (firstInput, secondInput) {
         (firstInput === 'concert-this') {
         getMeConcert(secondInput);
     } else if (firstInput === 'movie-this') {
-        getMeMovie(secondInput);
+        findMovie(secondInput);
     } else {
         doWhatItSays();
     }
 };
 whichFunction(firstInput, secondInput);
+    console.log('log at bottom input to search--> ' + secondInput);
