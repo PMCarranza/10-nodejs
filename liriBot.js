@@ -67,94 +67,63 @@ var getmeSpotify = function (songName) {
     });
 };
 
-// // searching for bands
-// var findBand = function (artist) {
-//     var queryURL = 'https://rest.bandsintown.com/artists/' + artist + '/events?app_id=';
-
-//     axios.get(queryURL).then(
-//         function (response) {
-
-//             var jsonData = response.data;
-
-//             if (!jasonData.length) {
-//                 console.log('No results found for --> ' + artist);
-
-//                 for (var i = 0; i < json.Data.length; i++) {
-//                     var show = jasonData[i];
-
-//                     console.log('Place and city -->' + show.venue.city);
-//                     console.log('region or country--> ' + (show.venue.region || show.venue.country));
-//                     console.log('venue name--> ' + show.venue.name);
-//                     console.log('time of show--> ' + moment(show.date.time).format('MM/DD/YYY'));
-//                 };
-//             };
-//         }
-//     );
-// };
-
-// searching for movie
-// variable declared gets the value of the function being defined and its parameter
 
 // var findMovie = function (movieName) {
-//     if (!movieName) {
-//         movieName = 'As good as it gets';
-//     };
 //     var ombdUrl = 'http://www.omdbapi.com/?i=' + movieName + 'tt3896198&apikey=68c2d4d3';
+//     console.log('line 110 movie --> ' + movieName);
+//     console.log('line 111 url --> ' + ombdUrl);
+//     axios.get(ombdUrl).then(
+//         function (result) {
+//             var jsonMovie = result.data;
+//             if (!jsonMovie.length) {
+//                 console.log('Nothing was found under --> ' + movieName);
+//                 for (var k = 0; k < jsonMovie.length; i++) {
+//                     var show = jasonMovie[k];
 
+//                     console.log('line 120 movie -->' + movieName);
+//                 };
+//             }
+//         }
+//     )
 // };
 
 // var omdb = new (require('http://www.omdbapi.com/?i=tt3896198&apikey=68c2d4d3'));
 
-var findMovie = function (movieName) {
-    var ombdUrl = 'http://www.omdbapi.com/?i=' + movieName + 'tt3896198&apikey=68c2d4d3';
-    console.log('line 110 movie --> ' + movieName);
-    console.log('line 111 url --> ' + ombdUrl);
-    axios.get(ombdUrl).then(
-        function (result) {
-            var jsonMovie = result.data;
-            if (!jsonMovie.length) {
-                console.log('Nothing was found under --> ' + movieName);
-                for (var k = 0; k < json.Data.length; i++) {
-                    var show = jasonMovie[k];
+const omdb = new (require('omdbapi'))('68c2d4d3');
+var secondInput = process.argv[3];
+var firstInput = process.argv[2];
 
-                    console.log('line 120 movie -->' + movieName);
-                };
-            }
-        }
-    )
+
+var findMovie = function (movieName) {
+    if (!movieName) {
+        console.log('line 99 ombd is --> ' + omdb);
+        console.log('line 100 movie is --> ' + movieName);
+        movieName = 'Life as a house';
+    }
+    omdb.search({
+        search: secondInput  // required
+        // type: 'series',             // optionnal  ['series', 'episode', 'movie']
+        // year: '2010'          // optionnal
+        // page: '1' 
+    }).then(res => {
+        console.log('got response:', res);
+        console.log('Title: ' + res.title);
+    }).catch(console.error);
+    // omdb.get({
+    //     id: 'tt0944947',            // optionnal (requires imdbid or title)
+    //     title: 'Game of Thrones',   // optionnal (requires imdbid or title)              // optionnal
+    //     type: 'series',             // optionnal ['series', 'episode', 'movie']
+    //     plot: 'full',               // optionnal (defaults to 'short')
+    //     tomatoes: true,             // optionnal (get rotten tomatoes ratings)
+    //     year: '2011'   
+    // }).then(res => {
+    //     console.log('got response:', res);
+    // }).catch(console.error);
 };
 
-//     if (!movieName) {
-//         console.log('line 126 ombd is --> ' + omdb);
-//         console.log('line 127 movie is --> ' + movieName);
-//         movieName = 'Life as a house';
-//     }
-//     omdb.search({
-//         search: movieName,  // required
-//         // Title: title,             // optionnal  ['series', 'episode', 'movie']
-//         // year: year,               // optionnal
-//         // page: page                   // optionnal (1 to 100)
-//     }).then(res => {
-//         console.log('got response:', res);
-//     }).catch(console.error);
-//     omdb.get({
-//         Title: title,   // optionnal (requires imdbid or title)
-//         Year: year,                // optionnal
-//         // imbd rating
-//         tomatoes: true,             // optionnal (get rotten tomatoes ratings)
-//         // country of origin
-//         // language
-//         Plot: 'short',               // optionnal (defaults to 'short')
-//         Actors: actors             
-//     }).then(res => {
-//         console.log('got response:', res);
-//     }).catch(console.error);
-// };
 
 
 
-var firstInput = process.argv[2];
-var secondInput = process.argv[3];
 var whichFunction = function (firstInput, secondInput) {
     if (firstInput === 'spotify-this-song') {
         getmeSpotify(secondInput);
@@ -168,4 +137,4 @@ var whichFunction = function (firstInput, secondInput) {
     }
 };
 whichFunction(firstInput, secondInput);
-    console.log('log at bottom input to search--> ' + secondInput);
+console.log('log at bottom input to search--> ' + secondInput);
