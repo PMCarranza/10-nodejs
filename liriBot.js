@@ -6,6 +6,9 @@
 // the require function imports modules that exist in separate files.
 require('dotenv').config();
 
+// Load the fs package to read and write
+var fs = require("fs");
+
 // importing the node-spotify-api
 // This is a universal wrapper/client for the Spotify Web API that runs on Node.JS and the browser
 var Spotify = require('node-spotify-api');
@@ -67,32 +70,13 @@ var getmeSpotify = function (songName) {
     });
 };
 
-
-// var findMovie = function (movieName) {
-//     var ombdUrl = 'http://www.omdbapi.com/?i=' + movieName + 'tt3896198&apikey=68c2d4d3';
-//     console.log('line 110 movie --> ' + movieName);
-//     console.log('line 111 url --> ' + ombdUrl);
-//     axios.get(ombdUrl).then(
-//         function (result) {
-//             var jsonMovie = result.data;
-//             if (!jsonMovie.length) {
-//                 console.log('Nothing was found under --> ' + movieName);
-//                 for (var k = 0; k < jsonMovie.length; i++) {
-//                     var show = jasonMovie[k];
-
-//                     console.log('line 120 movie -->' + movieName);
-//                 };
-//             }
-//         }
-//     )
-// };
-
-// var omdb = new (require('http://www.omdbapi.com/?i=tt3896198&apikey=68c2d4d3'));
-
 const omdb = new (require('omdbapi'))('68c2d4d3');
-var secondInput = process.argv[3];
 var firstInput = process.argv[2];
+var secondInput = process.argv[3];
 
+// defining place holder variables to be passed values in lines 147 and 148
+var doThis;
+var doThisToo;
 
 var findMovie = function (movieName) {
     if (!movieName) {
@@ -121,7 +105,50 @@ var findMovie = function (movieName) {
     // }).catch(console.error);
 };
 
+// searching for bands
+var findBand = function (artist) {
+    var queryURL = 'https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp';
+    axios.get(queryURL).then(
+        function (response) {
+            console.log('this is response.data --> ' + response.data);
+            var jsonData = response.data;
 
+            if (!jsonData.length) {
+                console.log('No results found for --> ' + artist);
+
+                for (var i = 0; i < json.Data.length; i++) {
+                    var show = jasonData[i];
+                    console.log('venue name--> ' + show.venue.name);
+                    console.log('Place and city -->' + show.venue.city);
+                    //console.log('region or country--> ' + (show.venue.region || show.venue.country));
+                    console.log('time of show--> ' + moment(show.date.time).format('MM/DD/YYY'));
+                };
+            };
+        }
+    );
+};
+
+var doWhatItSays = function() {
+    // accessing the random.txt file using the fs.readfile method
+    // function with error and data parameters is part of the fs.read file method
+    fs.readFile("random.txt", "utf8", function (error, data) {
+        if (error) {
+            return console.log(error);
+        }
+        // dataArr gets what random.txt has and uses the .split() method to separate the objects in the new array
+        var dataArr = data.split(",");
+        console.log('data contains this on line 139 --> ' + data);
+
+        // after split() doThis gets 'spotify-this-song' and and dothisToo gets 'God I hate Shakespeare'
+        console.log('dataArr at 0 has --> ' + dataArr[0]);
+        console.log('dataArr at 1 has --> ' + dataArr[1]);
+        doThis = dataArr[0];
+        doThisToo = dataArr[1];
+
+        // run the function with its parameters
+        whichFunction(doThis, doThisToo);
+    });
+};
 
 
 var whichFunction = function (firstInput, secondInput) {
@@ -129,12 +156,12 @@ var whichFunction = function (firstInput, secondInput) {
         getmeSpotify(secondInput);
     } else if
         (firstInput === 'concert-this') {
-        getMeConcert(secondInput);
+        findBand(secondInput);
     } else if (firstInput === 'movie-this') {
         findMovie(secondInput);
-    } else {
+    } else if
+        (firstInput === 'do-what-it-says') {
         doWhatItSays();
     }
 };
 whichFunction(firstInput, secondInput);
-console.log('log at bottom input to search--> ' + secondInput);
