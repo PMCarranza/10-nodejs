@@ -80,8 +80,8 @@ var doThisToo;
 
 var findMovie = function (movieName) {
     if (!movieName) {
-        console.log('line 99 ombd is --> ' + omdb);
-        console.log('line 100 movie is --> ' + movieName);
+        console.log('ombd is --> ' + omdb);
+        console.log('movie is --> ' + movieName);
         movieName = 'Life as a house';
     }
     omdb.search({
@@ -90,8 +90,9 @@ var findMovie = function (movieName) {
         // year: '2010'          // optionnal
         // page: '1' 
     }).then(res => {
-        console.log('got response:', res);
-        console.log('Title: ' + res.title);
+        console.log(res);
+        console.log('Title: ' + res[1].title);
+        console.log('Release year: ' + res[2].year);
     }).catch(console.error);
     // omdb.get({
     //     id: 'tt0944947',            // optionnal (requires imdbid or title)
@@ -107,28 +108,49 @@ var findMovie = function (movieName) {
 
 // searching for bands
 var findBand = function (artist) {
-    var queryURL = 'https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp';
+    var queryURL = 'https://rest.bandsintown.com/artists/' + artist + '/events?app_id=codingbootcamp';
+
+    // if (!artist) {
+    //     artist = 'the beach boys';
+    //     // console.log('artist is --> ' + artist);
+    // }
+    
+    console.log('hora --> ' + moment().format('h:mm:ss a'));
+    console.log('artist ' + artist);
     axios.get(queryURL).then(
         function (response) {
-            console.log('this is response.data --> ' + response.data);
-            var jsonData = response.data;
+            // console.log('vvvvv  THIS IS RESPONES  vvvvv');
+            // console.log(response);
+            // console.log('^^^^^^^^^  THIS WAS RESPONSE  ^^^^^^^^^^^^');
+         
+            // console.log(response);
+            var performer = response.data;
+            // console.log('vvvvvvvvv  this is response.data vvvvvvvvvv');
+            // console.log(performer);
+            // console.log('^^^^^^^^^^^this was response.data^^^^^^^^^ ');
 
-            if (!jsonData.length) {
-                console.log('No results found for --> ' + artist);
-
-                for (var i = 0; i < json.Data.length; i++) {
-                    var show = jasonData[i];
-                    console.log('venue name--> ' + show.venue.name);
-                    console.log('Place and city -->' + show.venue.city);
-                    //console.log('region or country--> ' + (show.venue.region || show.venue.country));
-                    console.log('time of show--> ' + moment(show.date.time).format('MM/DD/YYY'));
+            // console.log('firstInput has --> ' + firstInput);
+            // console.log('secondInput has --> ' + secondInput);
+            // if (!performer.length) {
+                for (var i = 0; i < performer.length; i++) {
+                    var show = performer[i];
+                    // console.log('Show  vvvvvvv');
+                    // console.log(show);
+                    // console.log('Show ^^^^^^^^^^^^');
+                    console.log('========== INFORMATION I AM LOOKIING FOR =================');
+                    console.log('Performer: ' + show.lineup[0]);
+                    console.log('Venue: ' + show.venue.name);
+                    console.log('City: ' + show.venue.city + ', ' + show.venue.region);
+                    console.log('Date & Time of Show: ' + moment(show.datetime).format('MM/DD/YYYY hh:00 A'));
+                    console.log('=========================================================');
+                    console.log('');
                 };
-            };
+            // };
         }
     );
 };
 
-var doWhatItSays = function() {
+var doWhatItSays = function () {
     // accessing the random.txt file using the fs.readfile method
     // function with error and data parameters is part of the fs.read file method
     fs.readFile("random.txt", "utf8", function (error, data) {
