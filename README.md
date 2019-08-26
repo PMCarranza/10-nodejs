@@ -15,8 +15,11 @@ Please scroll down to see a few examples of how this app works;  Thanks!
 
 The user can look for a song, movie, band/artist by typing in the terminal node followed by either 'spotify-this-song' or 'movie-this' or 'concert-this' (depending on the user's choice), followed by the name of what the user is looking for.
 
-/assets/spotify-this-song.gif
+# Looking for a song
 
-assets/concert-this query.png
-assets/concert-this result.png
+<img src="assets/spotify-this-song.gif">
+
+# Loking for a concert/artist
+<img src="assets/concert-this search.png">
+<img src="assets/concert-this result.png">
 
