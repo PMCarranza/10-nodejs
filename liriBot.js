@@ -68,7 +68,7 @@ var getmeSpotify = function (songName) {
     });
 };
 
-const omdb = new (require('omdbapi'))('68c2d4d3');
+// const omdb = new (require('omdbapi'))('68c2d4d3');
 var firstInput = process.argv[2];
 var secondInput = process.argv[3];
 
@@ -78,40 +78,27 @@ var findMovie = function (movieName) {
         console.log('movie is --> ' + movieName);
         movieName = 'Life as a house';
     }
-    omdb.search({
-        search: secondInput  // required
-        // type: 'series',             // optionnal  ['series', 'episode', 'movie']
-        // year: '2010'          // optionnal
-        // page: '1' 
-    }).then(function (res) {
+    var queryURL = "http://www.omdbapi.com/?t=" + secondInput + "&y=&plot=short&apikey=trilogy";
+    axios.get(queryURL).then(function (res) {
         // for (var i = 0; i < res.length; i++) {
-            // var jsonData = JSON.stringify(res);
+            // var jsonData = JSON.parse(res);
             // console.log('vvvvv jsonData vvvvvvvvvv');
             // console.log(jsonData);
             // console.log('^^^^^^^^  jasonData  ^^^^^^^^^^');
             // console.log('vvvvv THIS IS RES vvvvvvvvvv');
             // console.log(res);
             // console.log('^^^^^^^^  THIS WAS RES  ^^^^^^^^^^^');
-            console.log('Title: ' + res[1].title);
-            console.log('Release year: ' + res[2].year);
-            // console.log('Rating: ' + res[3].imbd.rating);
-        // };
-
-        // }).catch(console.error);
-        // omdb.get({
-        //     id: 'movie'            // optionnal (requires imdbid or title)
-        // // //     title: 'Game of Thrones',   // optionnal (requires imdbid or title)              // optionnal
-        // // //     type: 'series',             // optionnal ['series', 'episode', 'movie']
-        // //     plot: 'short',               // optionnal (defaults to 'short')
-        // //     tomatoes: true,             // optionnal (get rotten tomatoes ratings)
-        // //     year: '2011'   
-        // }).then(res => {
-        //     // console.log('Plot--> ' + plot);
-        //     console.log('tomatoes --> ' + tomatoes);
-        //     console.log(res);
-        // }).catch(console.error);
-});
+            console.log('Title: ' + res.Title);
+            console.log('Release year: ' + res.Year);
+            // console.log('IMBD Rating: ' + res.imbd.rating);
+            console.log('Tomatoes Rating: ' + res.Ratings);
+            console.log('This movie was produced in: ' + res.Country);
+            console.log('Language: ' + res.Language);
+            console.log('Plot: ' + res.Plot);
+            console.log('Actors: ' + res.Actors);
+        });
 };
+
 
 
 // searching for bands
