@@ -80,23 +80,27 @@ var findMovie = function (movieName) {
     }
     var queryURL = "http://www.omdbapi.com/?t=" + secondInput + "&y=&plot=short&apikey=trilogy";
     axios.get(queryURL).then(function (res) {
+        // console.log(res.data.Ratings);
         // for (var i = 0; i < res.length; i++) {
             // var jsonData = JSON.parse(res);
             // console.log('vvvvv jsonData vvvvvvvvvv');
             // console.log(jsonData);
             // console.log('^^^^^^^^  jasonData  ^^^^^^^^^^');
-            // console.log('vvvvv THIS IS RES vvvvvvvvvv');
-            // console.log(res);
-            // console.log('^^^^^^^^  THIS WAS RES  ^^^^^^^^^^^');
-            console.log('Title: ' + res.Title);
-            console.log('Release year: ' + res.Year);
+            console.log('vvvvv THIS IS RES vvvvvvvvvv');
+            console.log(res);
+            console.log('^^^^^^^^  THIS WAS RES  ^^^^^^^^^^^');
+            console.log('Title: ' + res.data.Title);
+            console.log('Release year: ' + res.data.Year);
             // console.log('IMBD Rating: ' + res.imbd.rating);
-            console.log('Tomatoes Rating: ' + res.Ratings);
-            console.log('This movie was produced in: ' + res.Country);
-            console.log('Language: ' + res.Language);
-            console.log('Plot: ' + res.Plot);
-            console.log('Actors: ' + res.Actors);
-        });
+            console.log('Tomatoes Rating: ' + res.data.Ratings[0]);
+            console.log('This movie was produced in: ' + res.data.Country);
+            console.log('Language: ' + res.data.Language);
+            console.log('Plot: ' + res.data.Plot);
+            console.log('Actors: ' + res.data.Actors);
+        }).catch(function (error) {
+            // handle error
+            console.log(error);
+          });
 };
 
 
@@ -136,7 +140,10 @@ var findBand = function (artist) {
             };
             // };
         }
-    );
+    ).catch(function (error) {
+        // handle error
+        console.log(error);
+    });
 };
 
 var doWhatItSays = function () {
@@ -165,8 +172,7 @@ var doWhatItSays = function () {
 var whichFunction = function (firstInput, secondInput) {
     if (firstInput === 'spotify-this-song') {
         getmeSpotify(secondInput);
-    } else if
-        (firstInput === 'concert-this') {
+    } else if(firstInput === 'concert-this') {
         findBand(secondInput);
     } else if (firstInput === 'movie-this') {
         findMovie(secondInput);
@@ -175,4 +181,5 @@ var whichFunction = function (firstInput, secondInput) {
         doWhatItSays();
     }
 };
+
 whichFunction(firstInput, secondInput);
