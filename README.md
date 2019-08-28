@@ -1,5 +1,5 @@
-# 10-nodejs
-interacting with apis to retrieve information
+# **10-nodejs**
+## Interacting with apis
 
 1.  This app interacts with three different apis to retrieve either songs, movies or concerts/performances the user is interested in.
 
@@ -11,15 +11,22 @@ interacting with apis to retrieve information
 
 Please scroll down to see a few examples of how this app works;  Thanks!
 
-## Search
+## **Search**
 
-The user can look for a song, movie, band/artist by typing in the terminal node followed by either 'spotify-this-song' or 'movie-this' or 'concert-this' (depending on the user's choice), followed by the name of what the user is looking for.
+ or 'movie-this' or 'concert-this' (depending on the user's choice), followed by the name of what the user is looking for.
 
-# Looking for a song
+
+# **Looking for a song**
+The user can look for a song, by typing in the terminal *node* followed by either *spotify-this-song* followed by *name of the song to search*
 
 <img src="assets/spotify-this-song.gif">
 
-# Loking for a concert/artist
-<img src="assets/concert-this search.png">
-<img src="assets/concert-this result.png">
+# **Looking for a concert/artist**
+To search for a band or artist you type *concert-this* instead.
+
+<img src="assets/concert-this.gif">
+
+# **Looking for a movie**
+
+<img src="assets/movie-this.gif">
 

@@ -45,9 +45,8 @@ var getmeSpotify = function (songName) {
     spotify.search({
         type: 'track',
         query: songName,
-        limit: 5
+        limit: 10
     }).then(function (response) {
-        // console.log('line 54 --> ' + JSON.stringify(response));
 
         // variable songs is getting the value contained in the object retrieved from the api accessed via dot notation
         var songs = response.tracks.items;
@@ -57,88 +56,80 @@ var getmeSpotify = function (songName) {
 
             // for loop to match the artists to the songs found
             for (var j = 0; j < songs[i].artists.length; j++) {
-                // console.log('What does j have--> '[j]);
+                console.log('=====  THESE ARE THE RESULTS FROM YOUR SEARCH  =====')
                 console.log('Performer: ' + songs[i].artists[j].name);
             };
             console.log('Song: ' + songs[i].name);
             console.log('Song preview: ' + songs[i].preview_url);
             console.log('From the album: ' + songs[i].album.name);
-            console.log('==========================');
+            console.log('==================================================');
         };
     });
 };
 
 // const omdb = new (require('omdbapi'))('68c2d4d3');
+// capturing the input values
 var firstInput = process.argv[2];
 var secondInput = process.argv[3];
 
 var findMovie = function (movieName) {
     if (!movieName) {
-        console.log('ombd is --> ' + omdb);
-        console.log('movie is --> ' + movieName);
-        movieName = 'Life as a house';
+        secondInput = 'Twister';
     }
     var queryURL = "http://www.omdbapi.com/?t=" + secondInput + "&y=&plot=short&apikey=trilogy";
     axios.get(queryURL).then(function (res) {
         // console.log(res.data.Ratings);
-        // for (var i = 0; i < res.length; i++) {
-            // var jsonData = JSON.parse(res);
-            // console.log('vvvvv jsonData vvvvvvvvvv');
-            // console.log(jsonData);
-            // console.log('^^^^^^^^  jasonData  ^^^^^^^^^^');
-            console.log('vvvvv THIS IS RES vvvvvvvvvv');
-            console.log(res);
-            console.log('^^^^^^^^  THIS WAS RES  ^^^^^^^^^^^');
-            console.log('Title: ' + res.data.Title);
-            console.log('Release year: ' + res.data.Year);
-            // console.log('IMBD Rating: ' + res.imbd.rating);
-            console.log('Tomatoes Rating: ' + res.data.Ratings[0]);
-            console.log('This movie was produced in: ' + res.data.Country);
-            console.log('Language: ' + res.data.Language);
-            console.log('Plot: ' + res.data.Plot);
-            console.log('Actors: ' + res.data.Actors);
-        }).catch(function (error) {
-            // handle error
-            console.log(error);
-          });
+
+        // since the data is already an object(s) I was unable to parse() it but I am able to stringify() it
+        var jsonData = JSON.stringify(res.data.Ratings);
+        // console.log(jsonData);
+
+        // now that I have the data I need as a string I am able to parse() it and can access it via dot notation
+        var tomatoes = JSON.parse(jsonData);
+        // console.log(tomatoes);
+        // console.log(res);
+
+        console.log('=====  YOUR RESULTS ARE  =====');
+        console.log('Title: ' + res.data.Title);
+        console.log('Release year: ' + res.data.Year);
+        console.log('IMBD Rating: ' + res.data.imdbRating);
+        console.log('Tomatoes Rating: ' + tomatoes[1].Value);
+        console.log('This movie was produced in: ' + res.data.Country);
+        console.log('Language: ' + res.data.Language);
+        console.log('Plot: ' + res.data.Plot);
+        console.log('Actors: ' + res.data.Actors);
+        console.log('===============================');
+    }).catch(function (error) {
+        // handle error
+        console.log('that exact match was not found, please try again');
+    });
 };
 
 
 
 // searching for bands
 var findBand = function (artist) {
+    if (!artist) {
+        artist = 'the beach boys';
+    }
     var queryURL = 'https://rest.bandsintown.com/artists/' + artist + '/events?app_id=codingbootcamp';
 
-    // if (!artist) {
-    //     artist = 'the beach boys';
-    //     // console.log('artist is --> ' + artist);
-    // }
-
-    console.log('hora --> ' + moment().format('h:mm:ss a'));
-    console.log('artist ' + artist);
     axios.get(queryURL).then(
         function (response) {
-            // console.log('vvvvv  THIS IS RESPONES  vvvvv');
             // console.log(response);
-            // console.log('^^^^^^^^^  THIS WAS RESPONSE  ^^^^^^^^^^^^');
 
             var secondInput = response.data;
-            // console.log('vvvvvvvvv  this is response.data vvvvvvvvvv');
             // console.log(secondInput);
-            // console.log('^^^^^^^^^^^this was response.data^^^^^^^^^ ');
 
-            // if (!secondInput.length) {
             for (var i = 0; i < secondInput.length; i++) {
                 var show = secondInput[i];
-                console.log('========== INFORMATION I AM LOOKIING FOR =================');
-                console.log('Performer: ' + show.lineup[0]);
+                console.log('==========  YOUR RESULTS FOR ' + show.lineup[0] + ' ARE  =================');
                 console.log('Venue: ' + show.venue.name);
                 console.log('City: ' + show.venue.city + ', ' + show.venue.region);
                 console.log('Date & Time of Show: ' + moment(show.datetime).format('MM/DD/YYYY hh:00 A'));
                 console.log('=========================================================');
-                console.log('');
             };
-            // };
+            
         }
     ).catch(function (error) {
         // handle error
@@ -172,7 +163,7 @@ var doWhatItSays = function () {
 var whichFunction = function (firstInput, secondInput) {
     if (firstInput === 'spotify-this-song') {
         getmeSpotify(secondInput);
-    } else if(firstInput === 'concert-this') {
+    } else if (firstInput === 'concert-this') {
         findBand(secondInput);
     } else if (firstInput === 'movie-this') {
         findMovie(secondInput);
