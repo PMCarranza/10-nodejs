@@ -12,8 +12,8 @@
 Please scroll down to see a few examples of how this app works;  Thanks!
 
 ## **Search**
-
- or 'movie-this' or 'concert-this' (depending on the user's choice), followed by the name of what the user is looking for.
+The user can look for a movie or group, by typing in the terminal *node* followed by either
+ 'movie-this' or 'concert-this' (depending on the user's choice), followed by the name of what the user is looking for.
 
 
 # **Looking for a song**
